@@ -59,3 +59,20 @@ node scripts/run-local.mjs /path/to/patched/renovate --write > fixture-run.log 2
 ```
 
 The hosted Renovate fixture repository under RenoTooth is reference material only; the runner never targets it.
+
+
+## Verified local Stage 1 run
+
+Local Renovate source: `MindTooth/renovate`, branch `fix/19503-release-note-linkification`, commit `72670932e`.
+Target: `RenoToothLab/renovate-issue-19503`, branch `main` (now the default).
+The local write run exited successfully and created:
+
+- [GitLab dependency PR #1](https://github.com/RenoToothLab/renovate-issue-19503/pull/1)
+- [GitHub dependency PR #2](https://github.com/RenoToothLab/renovate-issue-19503/pull/2)
+- [Mixed-source PR #3](https://github.com/RenoToothLab/renovate-issue-19503/pull/3)
+
+The raw mixed body is saved in [results/stage1-mixed-pr.md](results/stage1-mixed-pr.md).
+`node scripts/validate.mjs stage1 results/stage1-mixed-pr.md` passed against that actual PR body: GitHub #533 links upstream; GitLab #67/#66 stay unlinked; known speculative GitHub issue links are absent.
+Fixture config strict validation, runner syntax checking, and `git diff --check` also passed. The native RE2 binary is unavailable in this local environment, so Renovate used its documented RegExp fallback.
+
+This verifies the Stage 1 reference contract using real upstream notes. It does not demonstrate Stage 2, self-hosted GitLab, or every Markdown edge case; those remain covered separately by source tests or future work. Automerge is disabled. No hosted run on the RenoTooth fixture repository was used for these results.
