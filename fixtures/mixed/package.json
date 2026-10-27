@@ -1,1 +1,1 @@
-{"name":"fixture-mixed","private":true,"version":"1.0.0","dependencies":{"gitlab-ci-env":"6.3.0","ky":"1.0.1"}}
+{"name":"fixture-mixed","private":true,"version":"1.0.0","dependencies":{"gitlab-ci-env":"6.4.0","ky":"1.1.0"}}
