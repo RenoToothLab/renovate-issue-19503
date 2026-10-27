@@ -35,3 +35,18 @@ To reset, close fixture PRs, restore the pinned package files, and delete the co
 The local config passed strict repository validation. A local Renovate run discovered three npm files and four dependencies, resolved both pinned targets and their correct source URLs, and assigned the two mixed updates to `renovate/mixed-sources`. It did not generate PR Markdown. The existing upstream PR demonstrates the reported bug, but no new before/after run has been captured, and the assertion script has not been run against a generated mixed PR.
 
 This is incomplete: self-hosted GitLab and unknown hosts need deterministic tests in Renovate's test suite, as do Markdown links, code blocks, escaped references, merge requests, nested namespaces, repeated references and rendering, URL fragments and query parameters, and surrounding Markdown. No real self-hosted GitLab instance has been identified. Stage 2 is an expected contract, not a verified implementation.
+
+
+## Local patched-code run against the Lab repository
+
+The fixture target is `RenoToothLab/renovate-issue-19503`, branch `main`.
+The implementation lives on `fix/19503-release-note-linkification`; do not run the fixture against that branch.
+These fixtures are based on `RenoTooth/renovate-issue-19503-fixtures` and the implementation regression tests.
+
+From the patched Renovate checkout, with GitHub credentials available:
+
+```sh
+LOG_LEVEL=debug RENOVATE_BASE_BRANCH_PATTERNS=main RENOVATE_BRANCH_PREFIX=renovate/19503-stage1/ RENOVATE_BRANCH_PREFIX_OLD=renovate/19503-unused/ node lib/renovate.ts --platform=github --dry-run=full RenoToothLab/renovate-issue-19503
+```
+
+The explicit base branch is required while the repository default points at the implementation branch. Both prefix settings isolate the run from previous fixture branches. Full dry-run generates proposed PR bodies without creating PRs. Validate the mixed body using `scripts/validate.mjs stage1`. The source used must be recorded alongside results; upstream Renovate installations do not automatically use the patched code.

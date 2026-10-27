@@ -30,5 +30,6 @@
   "baseBranchPatterns": [
     "main"
   ],
-  "branchPrefix": "renovate/19503-stage1/"
+  "branchPrefix": "renovate/19503-stage1/",
+  "branchPrefixOld": "renovate/19503-unused/"
 }
