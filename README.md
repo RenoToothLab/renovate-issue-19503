@@ -46,7 +46,16 @@ These fixtures are based on `RenoTooth/renovate-issue-19503-fixtures` and the im
 From the patched Renovate checkout, with GitHub credentials available:
 
 ```sh
-LOG_LEVEL=debug RENOVATE_BASE_BRANCH_PATTERNS=main RENOVATE_BRANCH_PREFIX=renovate/19503-stage1/ RENOVATE_BRANCH_PREFIX_OLD=renovate/19503-unused/ node lib/renovate.ts --platform=github --dry-run=full RenoToothLab/renovate-issue-19503
+node /path/to/fixtures/scripts/run-local.mjs /path/to/patched/renovate > fixture-run.log 2>&1
 ```
 
-The explicit base branch is required while the repository default points at the implementation branch. Both prefix settings isolate the run from previous fixture branches. Full dry-run generates proposed PR bodies without creating PRs. Validate the mixed body using `scripts/validate.mjs stage1`. The source used must be recorded alongside results; upstream Renovate installations do not automatically use the patched code.
+The repository default branch is main. The runner also forces the base branch and fixture configuration to keep local tests isolated. It scans only fixtures/** and disables inherited presets for this run. Both prefix settings isolate the run from previous fixture branches. The runner defaults to a full dry-run, which may stop before PR rendering when branches do not exist. Pass --write to create or update test branches and PRs on the Lab repository; automerge and stale-branch pruning remain disabled. Validate the mixed body using `scripts/validate.mjs stage1`. The source used must be recorded alongside results; upstream Renovate installations do not automatically use the patched code.
+
+
+To exercise actual PR-body rendering on the Lab repository:
+
+```sh
+node scripts/run-local.mjs /path/to/patched/renovate --write > fixture-run.log 2>&1
+```
+
+The hosted Renovate fixture repository under RenoTooth is reference material only; the runner never targets it.
