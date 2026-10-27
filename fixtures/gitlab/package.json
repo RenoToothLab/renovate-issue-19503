@@ -2,5 +2,5 @@
   "name": "renovate-19503-gitlab-fixture",
   "private": true,
   "version": "1.0.0",
-  "dependencies": { "gitlab-ci-env": "6.3.0" }
+  "dependencies": { "gitlab-ci-env": "6.4.0" }
 }
